@@ -13,7 +13,9 @@ struct operation{
     int type;       //binario o entera
 };
 
-int PRE_CDECL asm_main( void ) POST_CDECL;
+int PRE_CDECL asm_main() POST_CDECL;
+//extern int _assemblySum(int x, int y);
+void asm_sum_int( int a, int b) __attribute__ ((cdecl ));
 int parsear_comando(struct operation * operation, char * buffer);
 
 int main()
@@ -26,15 +28,15 @@ int main()
     printf("Ingresa la operacion separando los sumando por espacios \n\n");
     //TODO: hay que decirle que seleccione si va a ser binario o entero
 
-    fgets(buffer, SIZE_BUFFER , stdin);
+    //fgets(buffer, SIZE_BUFFER , stdin);
 
-    parsear_comando(&operation, buffer);
-    printf("\nPrint de operation:\nparam1:%d\noperation:%c\nparam1:%d\n\n", operation.param1,operation.operation,operation.param2);
+    //parsear_comando(&operation, buffer);
+    //printf("\nPrint de operation:\nparam1:%d\noperation:%c\nparam1:%d\n\n", operation.param1,operation.operation,operation.param2);
 
-
+    asm_sum_int( 2, 4);
 
     int ret_status;
-    ret_status = asm_main();
+    //ret_status = asm_main();
     return ret_status;
 }
 
