@@ -1,6 +1,9 @@
 %include "asm_io.inc"
+segment .data
+
+
 segment .text 
-    global asm_sum_int
+    global asm_sum_int ;, desborde
 ; función asm_sum_int
 ; copia un bloque de memoria114
 ; prototipo de C
@@ -19,9 +22,21 @@ asm_sum_int:
     enter   0, 0
 
     mov     eax, param1       ; Variable 1 recibida
-    call    print_int	      ; //Esta funcion que es de C, esta en asm_io.asm
-    mov     eax, [ebp+12]       ; Variable 2 recibida
-    call    print_int	  ; //Esta funcion que es de C, esta en asm_io.asm
+    add     eax, param2       ; Variable 2 recibida
+    ;call    print_int	  ; //Esta funcion que es de C, esta en asm_io.asm
+    jo      short desborde
+    ;call    print_string
+    leave
+    ret
+
+desborde:
+    mov     eax, -1
+    leave
+    ret    
+    ;call    print_string
+
+
+
     ;mov     eax, [ebp+8]       ; Variable 2 recibida
     ;call    print_int	  ; //Esta funcion que es de C, esta en asm_io.asm
 
@@ -37,8 +52,7 @@ asm_sum_int:
     
     ;pop     edi
     ;pop     esi
-    leave
-    ret
+
 ;
 ;
 ;

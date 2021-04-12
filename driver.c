@@ -9,35 +9,63 @@
 struct operation{
     int param1;
     int param2;
-    char operation;    //signo + o -
+    char operation; //signo + o -
     int type;       //binario o entera
 };
 
 int PRE_CDECL asm_main() POST_CDECL;
 //extern int _assemblySum(int x, int y);
-void asm_sum_int( int a, int b) __attribute__ ((cdecl ));
+int asm_sum_int( int a, int b) __attribute__ ((cdecl ));
 int parsear_comando(struct operation * operation, char * buffer);
+
+
 
 int main()
 {
     struct operation operation;
     char buffer[SIZE_BUFFER];
+    int resultado = 0;
+    int error = 0;
 
     printf("Bienvenido a la calculadora de SisCom de Octa y Cristian\n\n");
     printf("Aqui se puede sumar o restar enteros o binarios\n");
-    printf("Ingresa la operacion separando los sumando por espacios \n\n");
+    printf("Ingresa la operacion separando los sumando por espacios o \"fin\" para salir\n");
     //TODO: hay que decirle que seleccione si va a ser binario o entero
 
-    //fgets(buffer, SIZE_BUFFER , stdin);
+    while (1)
+    {
+        error = 0;
+        printf("\n--------------------\n");
+        printf("\nOperación: ");
+        fgets(buffer, SIZE_BUFFER , stdin);
+        
+        if (strcmp(buffer, "fin\n") == 0){
+            return 0;
+        }
 
-    //parsear_comando(&operation, buffer);
-    //printf("\nPrint de operation:\nparam1:%d\noperation:%c\nparam1:%d\n\n", operation.param1,operation.operation,operation.param2);
+        if (parsear_comando(&operation, buffer) == -1){
+            error = -1;
+        }
+        //printf("\nPrint de operation:\nparam1:%d\noperation:%c\nparam1:%d\n\n", operation.param1,operation.operation,operation.param2);
 
-    asm_sum_int( 2, 4);
+        if (error != -1){
 
-    int ret_status;
+            if(operation.operation == '+'){
+                resultado = asm_sum_int( operation.param1, operation.param2);
+            }
+        
+            if (resultado != -1){
+                printf("\nResultado: %d\n", resultado);
+            } else {
+                printf("\nResultado: Se ha producido un desbordamiento\n");
+            }
+        } 
+
+    }
+    
+
     //ret_status = asm_main();
-    return ret_status;
+    return 0;
 }
 
 
@@ -56,7 +84,8 @@ int parsear_comando(struct operation * operation, char * buffer){
     //parametro 1
     tokenAux = strtok(buffer, " ");
     intAux = atoi(tokenAux);
-    if (intAux > 2147483647 || intAux < -2147483648){  //si el comando sale del limite máximo o mínimo de un int
+    //if (intAux > 2147483647 || intAux < -2147483648){  //si el comando sale del limite máximo o mínimo de un int
+    if (intAux == 2147483647 || intAux == -2147483648){  //si el comando sale del limite máximo o mínimo de un int
         printf("El comando ingresado es incorrecto\n");
         return -1;
     }
@@ -65,7 +94,7 @@ int parsear_comando(struct operation * operation, char * buffer){
     //operando
     tokenAux = strtok(NULL, " ");
     if (tokenAux == NULL || strcmp(tokenAux, "+") != 0 && strcmp(tokenAux, "-") != 0){
-        printf("El comando ingresado es incorrecto++\n");
+        printf("El comando ingresado es incorrecto\n");
         return -1;
     }
     //strcpy(operation->operation, tokenAux);
@@ -75,8 +104,8 @@ int parsear_comando(struct operation * operation, char * buffer){
     //parametro 2
     tokenAux = strtok(NULL, " ");
     intAux = atoi(tokenAux);
-    if (intAux > 2147483647 || intAux < -2147483648){  //si el comando sale del limite máximo o mínimo de un int
-        printf("El comando ingresado es incorrecto--\n");
+    if (intAux == 2147483647 || intAux == -2147483648){  //si el comando sale del limite máximo o mínimo de un int
+        printf("El comando ingresado es incorrecto\n");
         return -1;
     }
     operation->param2 = intAux;

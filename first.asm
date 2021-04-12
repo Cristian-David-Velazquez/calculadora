@@ -48,7 +48,7 @@ segment .bss
 ;
 ; These labels refer to double words used to store the inputs
 ;
-input1  resd 1
+input1  resd 1  ; reserva 4 bytes
 input2  resd 1
 
  
