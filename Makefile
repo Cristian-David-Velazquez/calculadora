@@ -3,17 +3,19 @@ AS		:= nasm
 ASFLAGS := -f elf32
 CFLAGS	:= -m32
 
-all: driver.o
+all: calc
 
 #calc: asm_io.o driver.o first.o
 #	$(CC) $(CFLAGS) -o calc first.o driver.c asm_io.o
 
-driver.o: asm_io.o first.o
-	$(CC) -o first first.o $(CFLAGS) driver.c asm_io.o
+calc: asm_io.o driver.o first.o
+	$(CC) $(CFLAGS) first.o driver.o asm_io.o -o calc
 
-asm_io.o:
-	#$(ASM) -f elf -d ELF_TYPE asm_io.asm
+asm_io.o: driver.o first.o
 	$(AS) $(ASFLAGS) -d ELF_TYPE asm_io.asm
+
+driver.o: first.o
+	$(CC) $(CFLAGS) -c -o driver.o driver.c
 
 first.o:
 	$(AS) $(ASFLAGS) first.asm
