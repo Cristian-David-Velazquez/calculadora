@@ -11,5 +11,17 @@ assert_equals () {
   fi
 }
 
-response=$(./calc "e 2 + 2")
-assert_equals "$response" 4
+response=$(./calc "e 4 + 2")
+assert_equals "$response" 6
+
+response=$(./calc "e 5 - 2")
+assert_equals "$response" 3
+
+response=$(./calc "e -6 - -2")
+assert_equals "$response" -4
+
+response=$(./calc "b 111 + 1")
+assert_equals "$response" 1000
+
+response=$(./calc "e 111 - 1")
+assert_equals "$response" 110
