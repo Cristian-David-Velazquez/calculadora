@@ -3,7 +3,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-
 //Variables y defines globales
 #define SIZE_BUFFER 100
 
@@ -14,7 +13,7 @@ struct operation{
     int type;       //binario o entera
 };
 
-char src[50], dest[50]="";
+char dest[50]="";
 
 //Funciones de ASM
 int asm_sum_int( int a, int b) __attribute__ ((cdecl ));
@@ -23,7 +22,8 @@ int asm_rest_int( int a, int b) __attribute__ ((cdecl ));
 //Funciones de C
 int parsear_comando(struct operation * operation, char * buffer);   
 void binDec (int n);
-
+void decBin(int binario);
+int powe (int x, int y);
 
 
 
@@ -60,16 +60,17 @@ int main()
         //printf("\nPrint de operation:\nparam1:%d\noperation:%c\nparam1:%d\n\n", operation.param1,operation.operation,operation.param2);
 
         if(operation.type == 0){
-            //entero1 = binDec(operation.param1);
-            binDec(operation.param1);
+           
+           /* binDec(operation.param1);
             entero1 = atoi(dest);
             memset (dest, '\0', 50);
-            memset (src, '\0', 50);
+      
 
             binDec(operation.param2);
             entero2 = atoi(dest);
             printf("%d\n",entero1);
-            printf("%d\n",entero2);
+            printf("%d\n",entero2);*/
+            decBin(operation.param1);
             return 0;
         }
         
@@ -176,7 +177,7 @@ int parsear_comando(struct operation * operation, char * buffer){
 
 
 void binDec (int n) {
-
+char src[50];
     if (n) {
         binDec( n / 2);
         sprintf( src, "%d", n % 2);
@@ -187,3 +188,28 @@ void binDec (int n) {
     //return atoi(dest);
 }
 
+void decBin(int binario){
+int decimal=0;
+int digito, exp=0;
+	  while(((int)(binario/10))!=0)
+   {
+           digito = (int)binario % 10;
+           printf ("digito:%d",digito);
+           decimal = decimal + digito * powe(2,exp);
+           printf ("decimal:%d",decimal);
+           exp++;
+           binario=(int)(binario/10);
+           printf ("binario:%d\n",binario);
+   }
+   decimal=decimal + binario * powe(2,exp);
+   printf ("decimal:%d",decimal);
+}
+
+int powe (int x, int y){
+    int resultado = 1;
+    for (int i = 0; i < y; i++)
+    {
+        resultado *= x;
+    }
+    return resultado;
+}
