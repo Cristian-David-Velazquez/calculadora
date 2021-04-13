@@ -39,7 +39,7 @@ int main(int argc, char * argv[])
 
     printf("Bienvenido a la calculadora de SisCom de Octa y Cristian\n\n");
     printf("Aqui se puede sumar o restar enteros o binarios\n");
-    printf("Ingresa la operacion separando los sumando por espacios o \"fin\" para salir\n");
+    printf("Ingresa la operacion separando los sumando por espacios o fin para salir\n");
     printf("Ingrese antes de la operacion e para enteros o b para binarios\n");
     printf("ejemplo: b 1000 + 1111\n");
 
