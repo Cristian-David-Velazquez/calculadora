@@ -69,7 +69,7 @@ int main(int argc, char * argv[])
         if(operation.type == 0){    //si es en binario
             operation.param1 = binDec(operation.param1);
             operation.param2 = binDec(operation.param2);
-            printf("param1: %d, param2: %d", operation.param1, operation.param2);
+            //printf("param1: %d, param2: %d", operation.param1, operation.param2);
         }
         
         if (error < 0){         //Gestion de erroes de los parámetros ingresados
