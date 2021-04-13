@@ -37,22 +37,22 @@ int main(int argc, char * argv[])
     int entero2;
     int no_fin = 1;
 
-    printf("Bienvenido a la calculadora de SisCom de Octa y Cristian\n\n");
-    printf("Aqui se puede sumar o restar enteros o binarios\n");
-    printf("Ingresa la operacion separando los sumando por espacios o fin para salir\n");
-    printf("Ingrese antes de la operacion e para enteros o b para binarios\n");
-    printf("ejemplo: b 1000 + 1111\n");
+    //printf("Bienvenido a la calculadora de SisCom de Octa y Cristian\n\n");
+    //printf("Aqui se puede sumar o restar enteros o binarios\n");
+    //printf("Ingresa la operacion separando los sumando por espacios o fin para salir\n");
+    //printf("Ingrese antes de la operacion e para enteros o b para binarios\n");
+    //printf("ejemplo: b 1000 + 1111\n");
 
     while (no_fin)
     {
         error = 0;
-        printf("\n--------------------\n");
-        printf("\nOperación: ");
+        //printf("\n--------------------\n");
+        //printf("\nOperación: ");
 
         if (argc < 2){  //Si no tiene argumento de entrada usa lo que ingresa por stdin
             fgets(buffer, SIZE_BUFFER , stdin);
         } else {
-            printf("%s", argv[1]);
+            //printf("%s", argv[1]);
             snprintf(buffer, SIZE_BUFFER, "%s", argv[1]);
             no_fin = 0;
         }
@@ -96,12 +96,12 @@ int main(int argc, char * argv[])
         
             if (resultado != -1){   //Gestion de error de la operacion
                 if(operation.type == 0){
-                    printf("\nResultado: %dB    -    %dD\n", decBin(resultado), resultado);
+                    //printf("\nResultado: %dB    -    %dD\n", decBin(resultado), resultado);
                 } else {
-                    printf("\nResultado: %d\n",resultado);
+                    //printf("\nResultado: %d\n",resultado);
                 }
             } else {
-                printf("\nResultado: Se ha producido un desbordamiento\n");
+                //printf("\nResultado: Se ha producido un desbordamiento\n");
             }
         }
 
