@@ -29,6 +29,9 @@ suma.o:
 clean:
 	rm *.o *.out calc driver first
 
+exec:
+	./calc
+
 #nasm -f elf32 -d ELF_TYPE asm_io.asm
 #nasm -f elf32 first.asm
 #gcc -o first.o -m32 driver.c asm_io.o

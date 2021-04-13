@@ -41,7 +41,7 @@ desborde:
 asm_rest_int:
     enter   0, 0
 
-    mov     eax, param1       ; Variable 1 recibida
+    mov      eax, param1       ; Variable 1 recibida
     sub      eax, param2       ; Variable 2 recibida  
     jo       short desborde 
     ;call    print_string

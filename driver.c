@@ -13,7 +13,7 @@ struct operation{
     int type;       //binario o entera
 };
 
-char dest[50]="";
+
 
 //Funciones de ASM
 int asm_sum_int( int a, int b) __attribute__ ((cdecl ));
@@ -21,7 +21,8 @@ int asm_rest_int( int a, int b) __attribute__ ((cdecl ));
 
 //Funciones de C
 int parsear_comando(struct operation * operation, char * buffer);   
-void decBin (int n);
+int decBin (int m);
+void decBin_recursivo (int n, char * dest);
 int binDec(int binario);
 int powe (int x, int y);
 
@@ -59,20 +60,21 @@ int main()
         }
         //printf("\nPrint de operation:\nparam1:%d\noperation:%c\nparam1:%d\n\n", operation.param1,operation.operation,operation.param2);
 
-        if(operation.type == 0){
+        if(operation.type == 0){    //si es en binario
            
+           // memset (dest, '\0', 50);
+
            /* decBin(operation.param1);
             entero1 = atoi(dest);
-            memset (dest, '\0', 50);
       
 
             decBin(operation.param2);
             entero2 = atoi(dest);
             printf("%d\n",entero1);
             printf("%d\n",entero2);*/
-            operation.param1=binDec(operation.param1);
-            operation.param2=binDec(operation.param2);
-            //return 0;
+            operation.param1 = binDec(operation.param1);
+            operation.param2 = binDec(operation.param2);
+            printf("param1: %d, param2: %d", operation.param1, operation.param2);
         }
         
         if (error < 0){         //Gestion de erroes de los parámetros ingresados
@@ -97,7 +99,11 @@ int main()
             }
         
             if (resultado != -1){   //Gestion de error de la operacion
-                printf("\nResultado: %d\n", resultado);
+                if(operation.type == 0){
+                    printf("\nResultado: %dB    -    %dD\n", decBin(resultado), resultado);
+                } else {
+                    printf("\nResultado: %d\n",resultado);
+                }
             } else {
                 printf("\nResultado: Se ha producido un desbordamiento\n");
             }
@@ -176,11 +182,16 @@ int parsear_comando(struct operation * operation, char * buffer){
     return 0;
 }
 
+int decBin (int m){
+    char dest[50]="";
+    decBin_recursivo(m, dest);
+    return atoi(dest);
+}
 
-void decBin (int n) {
-char src[50];
+void decBin_recursivo (int n, char * dest) {
+    char src[50];
     if (n) {
-        binDec( n / 2);
+        decBin_recursivo( n/2, dest);
         sprintf( src, "%d", n % 2);
         strcat( dest, src);
         //printf("%d", n % 2);
@@ -190,17 +201,17 @@ char src[50];
 }
 
 int binDec(int binario){
-int decimal=0;
-int digito, exp=0;
-	  while(((int)(binario/10))!=0)
-   {
-           digito = (int)binario % 10;
-           decimal = decimal + digito * powe(2,exp);
-           exp++;
-           binario=(int)(binario/10);
-   }
+    int decimal = 0;
+    int digito, exp = 0;
+	while(((int)(binario/10))!=0)
+    {
+        digito = (int)binario % 10;
+        decimal = decimal + digito * powe(2,exp);
+        exp++;
+        binario=(int)(binario/10);
+    }
    decimal=decimal + binario * powe(2,exp);
-   printf ("decimal:%d",decimal);
+   //printf ("decimal:%d",decimal);
    return decimal;
 }
 
