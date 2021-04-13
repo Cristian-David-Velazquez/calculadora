@@ -183,8 +183,17 @@ int parsear_comando(struct operation * operation, char * buffer){
 }
 
 int decBin (int m){
+    int f_negativo = 0;
+    if (m < 0){
+        m *= -1;
+        f_negativo = 1;
+    }
     char dest[50]="";
     decBin_recursivo(m, dest);
+
+    if (f_negativo){
+        return -1*atoi(dest);    
+    }
     return atoi(dest);
 }
 
