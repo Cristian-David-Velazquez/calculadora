@@ -14,7 +14,6 @@ struct operation{
 };
 
 
-
 //Funciones de ASM
 int asm_sum_int( int a, int b) __attribute__ ((cdecl ));
 int asm_rest_int( int a, int b) __attribute__ ((cdecl ));
@@ -28,7 +27,7 @@ int powe (int x, int y);
 
 
 
-int main()
+int main(int argc, char * argv[])
 {
     struct operation operation;
     char buffer[SIZE_BUFFER];
@@ -36,20 +35,27 @@ int main()
     int error = 0;
     int entero1;
     int entero2;
+    int no_fin = 1;
 
     printf("Bienvenido a la calculadora de SisCom de Octa y Cristian\n\n");
     printf("Aqui se puede sumar o restar enteros o binarios\n");
     printf("Ingresa la operacion separando los sumando por espacios o \"fin\" para salir\n");
     printf("Ingrese antes de la operacion e para enteros o b para binarios\n");
     printf("ejemplo: b 1000 + 1111\n");
-    //TODO: hay que decirle que seleccione si va a ser binario o entero
 
-    while (1)
+    while (no_fin)
     {
         error = 0;
         printf("\n--------------------\n");
         printf("\nOperación: ");
-        fgets(buffer, SIZE_BUFFER , stdin);
+
+        if (argc < 2){  //Si no tiene argumento de entrada usa lo que ingresa por stdin
+            fgets(buffer, SIZE_BUFFER , stdin);
+        } else {
+            printf("%s", argv[1]);
+            snprintf(buffer, SIZE_BUFFER, "%s", argv[1]);
+            no_fin = 0;
+        }
         
         if (strcmp(buffer, "fin\n") == 0){  //Cierra la calculadora
             return 0;
@@ -61,17 +67,6 @@ int main()
         //printf("\nPrint de operation:\nparam1:%d\noperation:%c\nparam1:%d\n\n", operation.param1,operation.operation,operation.param2);
 
         if(operation.type == 0){    //si es en binario
-           
-           // memset (dest, '\0', 50);
-
-           /* decBin(operation.param1);
-            entero1 = atoi(dest);
-      
-
-            decBin(operation.param2);
-            entero2 = atoi(dest);
-            printf("%d\n",entero1);
-            printf("%d\n",entero2);*/
             operation.param1 = binDec(operation.param1);
             operation.param2 = binDec(operation.param2);
             printf("param1: %d, param2: %d", operation.param1, operation.param2);
@@ -111,8 +106,6 @@ int main()
 
     }
     
-
-    //ret_status = asm_main();
     return resultado;
 }
 
@@ -143,11 +136,6 @@ int parsear_comando(struct operation * operation, char * buffer){
             return -1;
             break;
     }
-    /*if (tokenAux == NULL || strcmp(tokenAux, "e") != 0 && strcmp(tokenAux, "b") != 0){
-        printf("El comando ingresado es incorrecto\n");
-        return -1;
-    }
-    operation->type = *tokenAux;;*/
     
     //parametro 1
     tokenAux = strtok(NULL, " ");
@@ -203,10 +191,7 @@ void decBin_recursivo (int n, char * dest) {
         decBin_recursivo( n/2, dest);
         sprintf( src, "%d", n % 2);
         strcat( dest, src);
-        //printf("%d", n % 2);
     }
-    //printf("%s",dest);
-    //return atoi(dest);
 }
 
 int binDec(int binario){
