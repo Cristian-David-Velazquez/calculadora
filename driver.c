@@ -21,8 +21,8 @@ int asm_rest_int( int a, int b) __attribute__ ((cdecl ));
 
 //Funciones de C
 int parsear_comando(struct operation * operation, char * buffer);   
-void binDec (int n);
-void decBin(int binario);
+void decBin (int n);
+int binDec(int binario);
 int powe (int x, int y);
 
 
@@ -61,17 +61,18 @@ int main()
 
         if(operation.type == 0){
            
-           /* binDec(operation.param1);
+           /* decBin(operation.param1);
             entero1 = atoi(dest);
             memset (dest, '\0', 50);
       
 
-            binDec(operation.param2);
+            decBin(operation.param2);
             entero2 = atoi(dest);
             printf("%d\n",entero1);
             printf("%d\n",entero2);*/
-            decBin(operation.param1);
-            return 0;
+            operation.param1=binDec(operation.param1);
+            operation.param2=binDec(operation.param2);
+            //return 0;
         }
         
         if (error < 0){         //Gestion de erroes de los parámetros ingresados
@@ -176,7 +177,7 @@ int parsear_comando(struct operation * operation, char * buffer){
 }
 
 
-void binDec (int n) {
+void decBin (int n) {
 char src[50];
     if (n) {
         binDec( n / 2);
@@ -188,21 +189,19 @@ char src[50];
     //return atoi(dest);
 }
 
-void decBin(int binario){
+int binDec(int binario){
 int decimal=0;
 int digito, exp=0;
 	  while(((int)(binario/10))!=0)
    {
            digito = (int)binario % 10;
-           printf ("digito:%d",digito);
            decimal = decimal + digito * powe(2,exp);
-           printf ("decimal:%d",decimal);
            exp++;
            binario=(int)(binario/10);
-           printf ("binario:%d\n",binario);
    }
    decimal=decimal + binario * powe(2,exp);
    printf ("decimal:%d",decimal);
+   return decimal;
 }
 
 int powe (int x, int y){
