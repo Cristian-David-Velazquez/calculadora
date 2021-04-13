@@ -18,23 +18,26 @@ int PRE_CDECL asm_main() POST_CDECL;
 int asm_sum_int( int a, int b) __attribute__ ((cdecl ));
 int asm_rest_int( int a, int b) __attribute__ ((cdecl ));
 int parsear_comando(struct operation * operation, char * buffer);
-
-
-
+/*Convierte binarios a enteros*/
+void binDec (int n);
+ char src[50], dest[50]="";
 int main()
 {
     struct operation operation;
     char buffer[SIZE_BUFFER];
     int resultado = 0;
     int error = 0;
-
+    int entero1;
+    int entero2;
     printf("Bienvenido a la calculadora de SisCom de Octa y Cristian\n\n");
     printf("Aqui se puede sumar o restar enteros o binarios\n");
     printf("Ingresa la operacion separando los sumando por espacios o \"fin\" para salir\n");
+    printf("Ingrese antes de la operacion e para enteros o b para binarios\n");
+    printf("ejemplo b 1000 + 1111\n");
     //TODO: hay que decirle que seleccione si va a ser binario o entero
 
-    while (1)
-    {
+  //  while (1)
+  //  {
         error = 0;
         printf("\n--------------------\n");
         printf("\nOperación: ");
@@ -48,7 +51,18 @@ int main()
             error = -1;
         }
         //printf("\nPrint de operation:\nparam1:%d\noperation:%c\nparam1:%d\n\n", operation.param1,operation.operation,operation.param2);
-
+	if(operation.type==0){
+	   //entero1=binDec(operation.param1);
+	   binDec(operation.param1);
+	   entero1=atoi(dest);
+	   memset (dest, '\0', 50);
+	   memset (src, '\0', 50);
+	   binDec(operation.param2);
+	   entero2=atoi(dest);
+	   printf("%d\n",entero1);
+	   printf("%d\n",entero2);
+	   return 0;
+	}
         if (error != -1){
 
             switch(operation.operation){
@@ -68,11 +82,11 @@ int main()
             }
         } 
 
-    }
+   // }
     
 
     //ret_status = asm_main();
-    return 0;
+    return resultado;
 }
 
 
@@ -87,9 +101,28 @@ int main()
 int parsear_comando(struct operation * operation, char * buffer){
     char * tokenAux;
     int intAux = 0;
-
+    char selector;
+    
+    //Binario o entero
+    selector = *strtok(buffer, " ");
+    switch(selector){
+            case 'e':
+                operation->type = 1;
+                break;
+            case 'b':
+                operation->type = 0;
+                break;
+            default:return -1;
+            	break;
+           }
+    /*if (tokenAux == NULL || strcmp(tokenAux, "e") != 0 && strcmp(tokenAux, "b") != 0){
+        printf("El comando ingresado es incorrecto\n");
+        return -1;
+    }
+    operation->type = *tokenAux;;*/
+    
     //parametro 1
-    tokenAux = strtok(buffer, " ");
+    tokenAux = strtok(NULL, " ");
     intAux = atoi(tokenAux);
     //if (intAux > 2147483647 || intAux < -2147483648){  //si el comando sale del limite máximo o mínimo de un int
     if (intAux == 2147483647 || intAux == -2147483648){  //si el comando sale del limite máximo o mínimo de un int
@@ -127,3 +160,16 @@ int parsear_comando(struct operation * operation, char * buffer){
 
     return 0;
 }
+
+void binDec (int n) {
+
+    if (n) {
+        binDec(n / 2);
+        sprintf(src, "%d", n % 2);
+        strcat(dest, src);
+        //printf("%d", n % 2);
+    }
+    //printf("%s",dest);
+    //return atoi(dest);
+}
+
