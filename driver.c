@@ -82,6 +82,7 @@ int main(int argc, char * argv[])
                 printf("Se ha producido un error\n");
             }
             
+            
         } else {                //Ejecución de la opeacion
             switch(operation.operation){
                 case '+':
