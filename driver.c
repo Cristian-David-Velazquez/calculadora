@@ -105,7 +105,7 @@ int main(int argc, char * argv[])
         }
 
     }
-    prtinf("%d", resultado);
+    printf("%d", resultado);
     return resultado;
 }
 
