@@ -12,4 +12,15 @@ assert_equals () {
 }
 
 response=$(./calc "e 2 + 2")
-assert_equals "$response" 4
+assert_equals "$response" Bienvenido a la calculadora de SisCom de Octa y Cristian
+
+Aqui se puede sumar o restar enteros o binarios
+Ingresa la operacion separando los sumando por espacios o "fin" para salir
+Ingrese antes de la operacion e para enteros o b para binarios
+ejemplo: b 1000 + 1111
+
+--------------------
+
+Operación: e 2 + 2
+Resultado: 4
+4
