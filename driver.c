@@ -16,6 +16,7 @@ struct operation{
 int PRE_CDECL asm_main() POST_CDECL;
 //extern int _assemblySum(int x, int y);
 int asm_sum_int( int a, int b) __attribute__ ((cdecl ));
+int asm_rest_int( int a, int b) __attribute__ ((cdecl ));
 int parsear_comando(struct operation * operation, char * buffer);
 
 
@@ -50,9 +51,15 @@ int main()
 
         if (error != -1){
 
-            if(operation.operation == '+'){
+            switch(operation.operation){
+            case '+':
                 resultado = asm_sum_int( operation.param1, operation.param2);
-            }
+                break;
+            case '-':
+                resultado = asm_rest_int( operation.param1, operation.param2);
+                break;
+            default:break;
+        }
         
             if (resultado != -1){
                 printf("\nResultado: %d\n", resultado);

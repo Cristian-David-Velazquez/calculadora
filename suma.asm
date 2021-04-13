@@ -3,7 +3,7 @@ segment .data
 
 
 segment .text 
-    global asm_sum_int ;, desborde
+    global asm_sum_int, asm_rest_int
 ; función asm_sum_int
 ; copia un bloque de memoria114
 ; prototipo de C
@@ -24,7 +24,7 @@ asm_sum_int:
     mov     eax, param1       ; Variable 1 recibida
     add     eax, param2       ; Variable 2 recibida
     ;call    print_int	  ; //Esta funcion que es de C, esta en asm_io.asm
-    jo      short desborde
+    jo      short desborde ;es short porque voy a un label dentro del mismo archivo
     ;call    print_string
     leave
     ret
@@ -32,8 +32,22 @@ asm_sum_int:
 desborde:
     mov     eax, -1
     leave
-    ret    
+    ret
+
+
+%define param1  [ebp+8]
+%define param2  [ebp+12]
+
+asm_rest_int:
+    enter   0, 0
+
+    mov     eax, param1       ; Variable 1 recibida
+    sub      eax, param2       ; Variable 2 recibida  
+    jo       short desborde 
     ;call    print_string
+    leave
+    ret
+
 
 
 
