@@ -14,8 +14,29 @@ assert_equals () {
 response=$(./calc "e 4 + 2")
 assert_equals "$response" 6
 
+response=$(./calc "e -3 + 188")
+assert_equals "$response" 185
+
 response=$(./calc "e 5 - 2")
 assert_equals "$response" 3
 
+response=$(./calc "e 3 - 9")
+assert_equals "$response" -6
+
 response=$(./calc "e -6 - -2")
 assert_equals "$response" -4
+
+response=$(./calc "e 111 + 111")
+assert_equals "$response" 1110
+
+response=$(./calc "e -111 + 1000")
+assert_equals "$response" 1
+
+response=$(./calc "e 1010 - 111")
+assert_equals "$response" 11
+
+response=$(./calc "e 100 - 1110")
+assert_equals "$response" -1010
+
+response=$(./calc "e -1110 - -111")
+assert_equals "$response" -111
