@@ -3,6 +3,10 @@
 #include <string.h>
 #include <stdlib.h>
 
+//#include <sys/types.h>
+//#include <sys/stat.h>
+#include <fcntl.h>
+
 //Variables y defines globales
 #define SIZE_BUFFER 100
 
@@ -10,8 +14,9 @@ struct operation{
     int param1;
     int param2;
     char operation; //signo + o -
-    int type;       //binario o entera
+    int type;       //binario (0) o entera (1)
 };
+
 
 
 //Funciones de ASM
@@ -36,23 +41,30 @@ int main(int argc, char * argv[])
     int entero1;
     int entero2;
     int no_fin = 1;
+    int fdtest = 1; //apunta al fd de stdout
+    //int fdtest = open("/dev/null", 01);
+    
+    
+    if (argc > 1){                              //si se ingresaron argumentos
+        fdtest = open("/dev/null", 01);     //se eliminan todas las impresiones
+    }
 
-    //printf("Bienvenido a la calculadora de SisCom de Octa y Cristian\n\n");
-    //printf("Aqui se puede sumar o restar enteros o binarios\n");
-    //printf("Ingresa la operacion separando los sumando por espacios o fin para salir\n");
-    //printf("Ingrese antes de la operacion e para enteros o b para binarios\n");
-    //printf("ejemplo: b 1000 + 1111\n");
+    dprintf(fdtest, "Bienvenido a la calculadora de SisCom de Octa y Cristian\n\n");
+    dprintf(fdtest, "Aqui se puede sumar o restar enteros o binarios\n");
+    dprintf(fdtest, "Ingresa la operacion separando los sumando por espacios o fin para salir\n");
+    dprintf(fdtest, "Ingrese antes de la operacion e para enteros o b para binarios\n");
+    dprintf(fdtest, "ejemplo: b 1000 + 1111\n");
 
     while (no_fin)
     {
         error = 0;
-        //printf("\n--------------------\n");
-        //printf("\nOperación: ");
+        dprintf(fdtest, "\n--------------------\n");
+        dprintf(fdtest, "\nOperación: ");
 
         if (argc < 2){  //Si no tiene argumento de entrada usa lo que ingresa por stdin
             fgets(buffer, SIZE_BUFFER , stdin);
         } else {
-            //printf("%s", argv[1]);
+            //dprintf(fdtest, "%s", argv[1]);
             snprintf(buffer, SIZE_BUFFER, "%s", argv[1]);
             no_fin = 0;
         }
@@ -69,7 +81,7 @@ int main(int argc, char * argv[])
         if(operation.type == 0){    //si es en binario
             operation.param1 = binDec(operation.param1);
             operation.param2 = binDec(operation.param2);
-            //printf("param1: %d, param2: %d", operation.param1, operation.param2);
+            dprintf(fdtest, "param1: %d, param2: %d", operation.param1, operation.param2);
         }
         
         if (error < 0){         //Gestion de erroes de los parámetros ingresados
@@ -96,17 +108,23 @@ int main(int argc, char * argv[])
         
             if (resultado != -1){   //Gestion de error de la operacion
                 if(operation.type == 0){
-                    //printf("\nResultado: %dB    -    %dD\n", decBin(resultado), resultado);
+                    dprintf(fdtest, "\nResultado: %dB    -    %dD\n", decBin(resultado), resultado);
                 } else {
-                    //printf("\nResultado: %d\n",resultado);
+                    dprintf(fdtest, "\nResultado: %d\n",resultado);
                 }
             } else {
-                //printf("\nResultado: Se ha producido un desbordamiento\n");
+                dprintf(fdtest, "\nResultado: Se ha producido un desbordamiento\n");
             }
         }
 
     }
-    printf("%d", resultado);
+
+    if (operation.type == 1){
+        printf("%d", resultado);
+    } else{
+        printf("%d", resultado);
+    }
+    
     return resultado;
 }
 
