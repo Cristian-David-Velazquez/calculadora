@@ -119,10 +119,10 @@ int main(int argc, char * argv[])
 
     }
 
-    if (operation.type == 1){
+    if (operation.type == 1){   //si es entera
         printf("%d", resultado);
     } else{
-        printf("%d", resultado);
+        printf("%d", decBin(resultado));
     }
     
     return resultado;
