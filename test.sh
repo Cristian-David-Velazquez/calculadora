@@ -26,17 +26,17 @@ assert_equals "$response" -6
 response=$(./calc "e -6 - -2")
 assert_equals "$response" -4
 
-response=$(./calc "e 111 + 111")
+response=$(./calc "b 111 + 111")
 assert_equals "$response" 1110
 
-response=$(./calc "e -111 + 1000")
+response=$(./calc "b -111 + 1000")
 assert_equals "$response" 1
 
-response=$(./calc "e 1010 - 111")
+response=$(./calc "b 1010 - 111")
 assert_equals "$response" 11
 
-response=$(./calc "e 100 - 1110")
+response=$(./calc "b 100 - 1110")
 assert_equals "$response" -1010
 
-response=$(./calc "e -1110 - -111")
+response=$(./calc "b -1110 - -111")
 assert_equals "$response" -111
